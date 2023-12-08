@@ -4,7 +4,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import BookList from "./components/BookList";
 import AddBook from "./components/AddBook";
 
-// apollo client setup
+// apollo client setup new
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
