@@ -20,6 +20,10 @@ const BookDetails = ({ bookId, refreshData }) => {
     refreshData();
   };
 
+  useEffect(() => {
+    setSelectedBook(bookId);
+  }, [bookId]);
+
   const displayBookDetail = (bookId) => {
     if (loading) {
       return <div>Loading book detail...</div>;
@@ -27,27 +31,36 @@ const BookDetails = ({ bookId, refreshData }) => {
       return <div>Select book to view details</div>;
     } else if (error) {
       console.log(JSON.stringify(error, null, 2));
-      // return <div>Select book to view details</div>;
       return <p>Ops! Something went wrong</p>;
     } else if (data) {
       const { book } = data;
       if (!book) {
         return;
       }
+
       return (
         <div>
-          <h2>{book.name}</h2>
-          <p>{book.genre}</p>
-          <p>{book.author.name}</p>
-          <p>All books by this author:</p>
-          <ul className={"other-books"}>
-            {book.author.books.map((b) => {
-              return <li key={b.id}>{b.name}</li>;
-            })}
-          </ul>
-          <button id={"delete-book-button"} onClick={() => deleteBookHandler()}>
-            -
-          </button>
+          {selectedBook ? (
+            <>
+              <h2>{book.name}</h2>
+              <p>{book.genre}</p>
+              <p>{book.author.name}</p>
+              <p>All books by this author:</p>
+              <ul className={"other-books"}>
+                {book.author.books.map((b) => {
+                  return <li key={b.id}>{b.name}</li>;
+                })}
+              </ul>
+              <button
+                id={"delete-book-button"}
+                onClick={() => deleteBookHandler()}
+              >
+                -
+              </button>
+            </>
+          ) : (
+            <div>Select a book to view details</div>
+          )}
         </div>
       );
     }
